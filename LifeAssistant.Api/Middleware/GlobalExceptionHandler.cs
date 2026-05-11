@@ -14,7 +14,7 @@ public sealed class GlobalExceptionHandler(
             Exception exception,
             CancellationToken cancellationToken)
         {
-        logger.LogError(exception, "Unhandled exception occured. TraceId: {TraceId}",
+        logger.LogError(exception, "Unhandled exception occurred. TraceId: {TraceId}",
             httpContext.TraceIdentifier);
 
         var (statusCode, title) = MapException(exception);
