@@ -29,8 +29,7 @@ Use this skill for:
 
 ```csharp
 await using var app = new TestApplicationFactory();
-
-var client = app.CreateClient();
+using var client = app.CreateClient();
 
 var response = await client.PostAsJsonAsync(
     "/api/users",

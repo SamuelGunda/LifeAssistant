@@ -59,7 +59,7 @@ public sealed class GlobalExceptionHandler(
         ArgumentException => (StatusCodes.Status400BadRequest, "Invalid argument provided"),
 
         NotFoundException => (StatusCodes.Status404NotFound, "Resource Not Found"),
-        ConflictException => (StatusCodes.Status409Conflict, "Resource Already Exist"),
+        ConflictException => (StatusCodes.Status409Conflict, "Resource Already Exists"),
 
         _ => (StatusCodes.Status500InternalServerError, "Internal Server Error")
     };

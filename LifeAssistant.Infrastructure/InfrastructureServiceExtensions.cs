@@ -16,9 +16,7 @@ public static class InfrastructureServiceExtensions
 
         if (string.IsNullOrWhiteSpace(connectionString))
         {
-            throw new System.InvalidOperationException(
-                "Connection string 'DefaultConnection' is not configured. " +
-                "Set it in configuration (for example, appsettings.json, user secrets, or environment variables) before starting the application.");
+            throw new InvalidOperationException("Connection string 'DefaultConnection' is not configured. ");
         }
 
         services.AddDbContext<AppDbContext>(options =>
