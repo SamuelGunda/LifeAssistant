@@ -1,0 +1,17 @@
+﻿using System.Net;
+
+namespace LifeAssistant.Application.Common.Exceptions;
+
+public sealed class NotFoundException : BaseException
+{
+    //Production Safe Message
+    public NotFoundException(string message)
+        : base(message, HttpStatusCode.NotFound)
+    {
+    }
+    //For Internal Tracking
+    public NotFoundException(string resourceName, object key) 
+        : base($"{resourceName} with identifier '{key}' already exists.", HttpStatusCode.NotFound)
+    { 
+    }
+} 
