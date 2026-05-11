@@ -1,6 +1,6 @@
 ﻿---
 name: ef-core
-description: 'Get best practices for Entity Framework Core', Entity Framework Core, query optimization, migrations, tracking, projections, performance,
+description: 'Get best practices for Entity Framework Core, Entity Framework Core, query optimization, migrations, tracking, projections, performance'
 ---
 
 # Entity Framework Core Best Practices
