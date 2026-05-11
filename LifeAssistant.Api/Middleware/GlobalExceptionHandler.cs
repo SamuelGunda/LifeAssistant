@@ -1,4 +1,4 @@
-﻿using LifeAssistant.Application.Common.Exceptions;
+using LifeAssistant.Application.Common.Exceptions;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using FluentValidation;
@@ -26,7 +26,6 @@ public sealed class GlobalExceptionHandler(
         {
             Status = statusCode,
             Title = title,
-            //Type = GetProblemType(statusCode),
             Instance = httpContext.Request.Path,
             Detail = GetSafeErrorMessage(exception, httpContext),
             Extensions =
@@ -75,13 +74,14 @@ public sealed class GlobalExceptionHandler(
     };
 #pragma warning restore S1144
 
-    private static string? GetSafeErrorMessage(Exception exception, HttpContext context) 
+    private static string? GetSafeErrorMessage(Exception exception, HttpContext context)
     {
+        if (exception is ValidationException)
+            return "One or more validation errors occurred.";
+        
         var env = context.RequestServices.GetRequiredService<IHostEnvironment>();
         if (env.IsDevelopment())
-        {
             return exception.Message;
-        }
         
         return exception is BaseException ? exception.Message : null;
     }
