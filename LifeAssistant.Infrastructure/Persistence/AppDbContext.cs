@@ -8,9 +8,8 @@ namespace LifeAssistant.Infrastructure.Persistence;
 public sealed class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options), IAppDbContext
 {
     public DbSet<PlannerItem> PlannerItems => Set<PlannerItem>();
-    public DbSet<Todo> Todo => Set<Todo>();
+    public DbSet<Todo> Todos => Set<Todo>();
     public DbSet<Tag> Tags => Set<Tag>();
-    public DbSet<Attachment> Attachments => Set<Attachment>();
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

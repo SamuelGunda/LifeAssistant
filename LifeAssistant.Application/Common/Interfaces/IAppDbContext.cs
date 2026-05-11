@@ -5,9 +5,8 @@ namespace LifeAssistant.Application.Common.Interfaces;
 
 public interface IAppDbContext
 {
-    DbSet<Todo> Todo { get; }
+    DbSet<Todo> Todos { get; }
     DbSet<Tag> Tags { get; }
-    DbSet<Attachment> Attachments { get; }
     
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

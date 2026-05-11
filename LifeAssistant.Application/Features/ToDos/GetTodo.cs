@@ -12,7 +12,7 @@ public sealed class GetTodoHandler(IAppDbContext db) : IRequestHandler<GetTodoQu
 {
     public async Task<TodoDto> Handle(GetTodoQuery request, CancellationToken cancellationToken)
     {
-        var todo = await db.Todo
+        var todo = await db.Todos
             .AsNoTracking()
             .Include(t => t.Tags)
             .FirstOrDefaultAsync(t => t.Id == request.Id, cancellationToken) 

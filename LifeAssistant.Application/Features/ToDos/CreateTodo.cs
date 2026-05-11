@@ -44,7 +44,7 @@ public sealed class CreateTodoHandler(IAppDbContext db) : IRequestHandler<Create
             Status = request.Status
         };
 
-        db.Todo.Add(todo);
+        db.Todos.Add(todo);
         await db.SaveChangesAsync(cancellationToken);
 
         return todo.ToDto();

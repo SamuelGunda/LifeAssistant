@@ -1,5 +1,4 @@
 ﻿using LifeAssistant.Domain.Models.Enums;
-using MediatR;
 
 namespace LifeAssistant.Application.Models.Dtos;
 
