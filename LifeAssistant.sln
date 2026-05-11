@@ -1,6 +1,12 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LifeAssistant", "LifeAssistant\LifeAssistant.csproj", "{B47CE76F-04A2-43A4-813D-F79B957D5F13}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LifeAssistant.Api", "LifeAssistant.Api\LifeAssistant.Api.csproj", "{B47CE76F-04A2-43A4-813D-F79B957D5F13}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LifeAssistant.Application", "LifeAssistant.Application\LifeAssistant.Application.csproj", "{62116D24-9C35-491D-8484-BAF4FE0489C0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LifeAssistant.Infrastructure", "LifeAssistant.Infrastructure\LifeAssistant.Infrastructure.csproj", "{04D5FBC6-6CC8-48CB-8DB0-479696F88D6D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LifeAssistant.Domain", "LifeAssistant.Domain\LifeAssistant.Domain.csproj", "{9D2F78E7-476F-4F57-8DD0-22E908347908}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -12,5 +18,17 @@ Global
 		{B47CE76F-04A2-43A4-813D-F79B957D5F13}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B47CE76F-04A2-43A4-813D-F79B957D5F13}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B47CE76F-04A2-43A4-813D-F79B957D5F13}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62116D24-9C35-491D-8484-BAF4FE0489C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62116D24-9C35-491D-8484-BAF4FE0489C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62116D24-9C35-491D-8484-BAF4FE0489C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62116D24-9C35-491D-8484-BAF4FE0489C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{04D5FBC6-6CC8-48CB-8DB0-479696F88D6D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04D5FBC6-6CC8-48CB-8DB0-479696F88D6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04D5FBC6-6CC8-48CB-8DB0-479696F88D6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04D5FBC6-6CC8-48CB-8DB0-479696F88D6D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9D2F78E7-476F-4F57-8DD0-22E908347908}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9D2F78E7-476F-4F57-8DD0-22E908347908}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9D2F78E7-476F-4F57-8DD0-22E908347908}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9D2F78E7-476F-4F57-8DD0-22E908347908}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
