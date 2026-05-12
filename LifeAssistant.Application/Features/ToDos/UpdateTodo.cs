@@ -33,6 +33,12 @@ public sealed class UpdateTodoValidator : AbstractValidator<UpdateTodoCommand>
         RuleFor(x => x.Notes.Value)
             .MaximumLength(1000)
             .When(x => x.Notes.HasValue);
+        RuleFor(x => x.Priority)
+            .IsInEnum()
+            .When(x => x.Priority is not null);
+        RuleFor(x => x.Status)
+            .IsInEnum()
+            .When(x => x.Status is not null);
     }
 }
 
