@@ -1,14 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <PackageReference Include="FluentValidation" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
+    <PackageReference Include="MediatR" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" />
+  </ItemGroup>
 
-    <ItemGroup>
-        <PackageReference Include="FluentValidation" />
-        <PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
-        <PackageReference Include="MediatR" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <ProjectReference Include="..\LifeAssistant.Domain\LifeAssistant.Domain.csproj" />
-    </ItemGroup>
-
+  <ItemGroup>
+    <ProjectReference Include="..\LifeAssistant.Domain\LifeAssistant.Domain.csproj" />
+  </ItemGroup>
 </Project>

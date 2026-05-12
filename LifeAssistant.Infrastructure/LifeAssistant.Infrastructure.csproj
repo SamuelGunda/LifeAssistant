@@ -1,16 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <PackageReference Include="Ical.Net" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" />
+  </ItemGroup>
 
-    <ItemGroup>
-        <PackageReference Include="Ical.Net" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" />
-        <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" />
-    </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LifeAssistant.Domain\LifeAssistant.Domain.csproj" />
+    <ProjectReference Include="..\LifeAssistant.Application\LifeAssistant.Application.csproj" />
+  </ItemGroup>
 
-    <ItemGroup>
-        <ProjectReference Include="..\LifeAssistant.Domain\LifeAssistant.Domain.csproj" />
-        <ProjectReference Include="..\LifeAssistant.Application\LifeAssistant.Application.csproj" />
-    </ItemGroup>
-
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
 </Project>

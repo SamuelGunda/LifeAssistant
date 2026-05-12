@@ -1,6 +1,7 @@
 using System.Text;
 using LifeAssistant.Application;
 using LifeAssistant.Infrastructure;
+using LifeAssistant.Json;
 using LifeAssistant.Middleware;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -11,12 +12,17 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
 
-builder.Services.AddControllers();
+builder
+    .Services.AddControllers()
+    .AddJsonOptions(opts =>
+        opts.JsonSerializerOptions.Converters.Add(new OptionalJsonConverterFactory())
+    );
 builder.Services.AddOpenApi();
 
 builder.Services.AddProblemDetails();
 
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+builder
+    .Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(opts =>
     {
         opts.TokenValidationParameters = new TokenValidationParameters
@@ -28,8 +34,13 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidIssuer = builder.Configuration["Jwt:Issuer"],
             ValidAudience = builder.Configuration["Jwt:Audience"],
             IssuerSigningKey = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"] 
-                                       ?? throw new InvalidOperationException("JWT Key is missing from configuration.")))
+                Encoding.UTF8.GetBytes(
+                    builder.Configuration["Jwt:Key"]
+                        ?? throw new InvalidOperationException(
+                            "JWT Key is missing from configuration."
+                        )
+                )
+            ),
         };
     });
 
