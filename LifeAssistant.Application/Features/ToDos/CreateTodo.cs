@@ -27,6 +27,10 @@ public sealed class CreateTodoValidator : AbstractValidator<CreateTodoCommand>
             .MaximumLength(1000);
         RuleFor(x => x.Notes)
             .MaximumLength(1000);
+        RuleFor(x => x.Priority)
+            .IsInEnum();
+        RuleFor(x => x.Status)
+            .IsInEnum();
     }
 }
 
