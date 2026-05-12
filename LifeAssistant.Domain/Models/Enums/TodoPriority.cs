@@ -9,5 +9,5 @@ public enum TodoPriority
     Low,
     Medium,
     High,
-    Urgent
+    Urgent,
 }

@@ -5,12 +5,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LifeAssistant.Infrastructure.Persistence;
 
-public sealed class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options), IAppDbContext
+public sealed class AppDbContext(DbContextOptions<AppDbContext> options)
+    : DbContext(options),
+        IAppDbContext
 {
     public DbSet<PlannerItem> PlannerItems => Set<PlannerItem>();
     public DbSet<Todo> Todos => Set<Todo>();
     public DbSet<Tag> Tags => Set<Tag>();
-    
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);

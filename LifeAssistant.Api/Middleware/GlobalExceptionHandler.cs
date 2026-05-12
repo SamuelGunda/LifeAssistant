@@ -1,21 +1,26 @@
+using FluentValidation;
 using LifeAssistant.Application.Common.Exceptions;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using FluentValidation;
 
 namespace LifeAssistant.Middleware;
 
 public sealed class GlobalExceptionHandler(
     ILogger<GlobalExceptionHandler> logger,
-    IProblemDetailsService problemDetailsService) : IExceptionHandler
+    IProblemDetailsService problemDetailsService
+) : IExceptionHandler
 {
-        public async ValueTask<bool> TryHandleAsync(
-            HttpContext httpContext,
-            Exception exception,
-            CancellationToken cancellationToken)
-        {
-        logger.LogError(exception, "Unhandled exception occurred. TraceId: {TraceId}",
-            httpContext.TraceIdentifier);
+    public async ValueTask<bool> TryHandleAsync(
+        HttpContext httpContext,
+        Exception exception,
+        CancellationToken cancellationToken
+    )
+    {
+        logger.LogError(
+            exception,
+            "Unhandled exception occurred. TraceId: {TraceId}",
+            httpContext.TraceIdentifier
+        );
 
         var (statusCode, title) = MapException(exception);
 
@@ -31,58 +36,56 @@ public sealed class GlobalExceptionHandler(
             Extensions =
             {
                 ["traceId"] = httpContext.TraceIdentifier,
-                ["timestamp"] = DateTime.UtcNow
-            }
+                ["timestamp"] = DateTime.UtcNow,
+            },
         };
-        
+
         if (exception is ValidationException validationException)
         {
-            problemDetails.Extensions["errors"] = validationException.Errors
-                .GroupBy(e => e.PropertyName)
-                .ToDictionary(
-                    g => g.Key,
-                    g => g.Select(e => e.ErrorMessage).ToArray());
+            problemDetails.Extensions["errors"] = validationException
+                .Errors.GroupBy(e => e.PropertyName)
+                .ToDictionary(g => g.Key, g => g.Select(e => e.ErrorMessage).ToArray());
         }
 
-        return await problemDetailsService.TryWriteAsync(new ProblemDetailsContext
-        {
-            HttpContext = httpContext,
-            ProblemDetails = problemDetails,
-        });
+        return await problemDetailsService.TryWriteAsync(
+            new ProblemDetailsContext { HttpContext = httpContext, ProblemDetails = problemDetails }
+        );
     }
-    
-    private static (int StatusCode, string Title) MapException(Exception exception) => exception switch
-    {
-        ValidationException => (StatusCodes.Status400BadRequest, "Validation failed"),
-        ArgumentNullException => (StatusCodes.Status400BadRequest, "Invalid argument provided"),
-        ArgumentException => (StatusCodes.Status400BadRequest, "Invalid argument provided"),
 
-        NotFoundException => (StatusCodes.Status404NotFound, "Resource Not Found"),
-        ConflictException => (StatusCodes.Status409Conflict, "Resource Already Exists"),
+    private static (int StatusCode, string Title) MapException(Exception exception) =>
+        exception switch
+        {
+            ValidationException => (StatusCodes.Status400BadRequest, "Validation failed"),
+            ArgumentNullException => (StatusCodes.Status400BadRequest, "Invalid argument provided"),
+            ArgumentException => (StatusCodes.Status400BadRequest, "Invalid argument provided"),
 
-        _ => (StatusCodes.Status500InternalServerError, "Internal Server Error")
-    };
-    
+            NotFoundException => (StatusCodes.Status404NotFound, "Resource Not Found"),
+            ConflictException => (StatusCodes.Status409Conflict, "Resource Already Exists"),
+
+            _ => (StatusCodes.Status500InternalServerError, "Internal Server Error"),
+        };
+
     // Kept for reference
 #pragma warning disable S1144
-    private static string GetProblemType(int statusCode) => statusCode switch
-    {
-        400 => "https://tools.ietf.org/html/rfc9110#section-15.5.1",
-        404 => "https://tools.ietf.org/html/rfc9110#section-15.5.5",
-        409 => "https://tools.ietf.org/html/rfc9110#section-15.5.10",
-        _ => "https://tools.ietf.org/html/rfc9110#section-15.6.1"
-    };
+    private static string GetProblemType(int statusCode) =>
+        statusCode switch
+        {
+            400 => "https://tools.ietf.org/html/rfc9110#section-15.5.1",
+            404 => "https://tools.ietf.org/html/rfc9110#section-15.5.5",
+            409 => "https://tools.ietf.org/html/rfc9110#section-15.5.10",
+            _ => "https://tools.ietf.org/html/rfc9110#section-15.6.1",
+        };
 #pragma warning restore S1144
 
     private static string? GetSafeErrorMessage(Exception exception, HttpContext context)
     {
         if (exception is ValidationException)
             return "One or more validation errors occurred.";
-        
+
         var env = context.RequestServices.GetRequiredService<IHostEnvironment>();
         if (env.IsDevelopment())
             return exception.Message;
-        
+
         return exception is BaseException ? exception.Message : null;
     }
 }

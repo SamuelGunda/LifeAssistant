@@ -13,6 +13,6 @@ public sealed record TodoDto(
     DateTimeOffset CreatedAt,
     DateTimeOffset UpdatedAt,
     IReadOnlyList<TagSummaryResponse> Tags
-    );
-    
+);
+
 public sealed record TagSummaryResponse(Guid Id, string Name, string Color, string? Icon);

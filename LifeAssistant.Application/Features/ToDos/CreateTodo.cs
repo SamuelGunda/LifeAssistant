@@ -14,29 +14,27 @@ public sealed record CreateTodoCommand(
     DateTimeOffset? DueDate,
     TodoPriority Priority,
     PlannerItemStatus Status
-    ) : IRequest<TodoDto>;
+) : IRequest<TodoDto>;
 
 public sealed class CreateTodoValidator : AbstractValidator<CreateTodoCommand>
 {
     public CreateTodoValidator()
     {
-        RuleFor(x => x.Title)
-            .NotEmpty()
-            .MaximumLength(50);
-        RuleFor(x => x.Description)
-            .MaximumLength(1000);
-        RuleFor(x => x.Notes)
-            .MaximumLength(1000);
-        RuleFor(x => x.Priority)
-            .IsInEnum();
-        RuleFor(x => x.Status)
-            .IsInEnum();
+        RuleFor(x => x.Title).NotEmpty().MaximumLength(50);
+        RuleFor(x => x.Description).MaximumLength(1000);
+        RuleFor(x => x.Notes).MaximumLength(1000);
+        RuleFor(x => x.Priority).IsInEnum();
+        RuleFor(x => x.Status).IsInEnum();
     }
 }
 
-public sealed class CreateTodoHandler(IAppDbContext db) : IRequestHandler<CreateTodoCommand, TodoDto>
+public sealed class CreateTodoHandler(IAppDbContext db)
+    : IRequestHandler<CreateTodoCommand, TodoDto>
 {
-    public async Task<TodoDto> Handle(CreateTodoCommand request, CancellationToken cancellationToken)
+    public async Task<TodoDto> Handle(
+        CreateTodoCommand request,
+        CancellationToken cancellationToken
+    )
     {
         var todo = new Todo
         {
@@ -45,7 +43,7 @@ public sealed class CreateTodoHandler(IAppDbContext db) : IRequestHandler<Create
             Notes = request.Notes,
             DueDate = request.DueDate,
             Priority = request.Priority,
-            Status = request.Status
+            Status = request.Status,
         };
 
         db.Todos.Add(todo);

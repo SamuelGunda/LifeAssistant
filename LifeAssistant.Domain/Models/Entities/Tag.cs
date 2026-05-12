@@ -9,6 +9,6 @@ public sealed class Tag
     public string Color { get; set; } = "#000000";
     public string? Icon { get; set; }
     public Guid OwnerId { get; set; }
-    
+
     public ICollection<PlannerItem> PlannerItems { get; set; } = new List<PlannerItem>();
 }

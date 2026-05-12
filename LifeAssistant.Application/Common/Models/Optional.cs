@@ -18,6 +18,7 @@ public readonly struct Optional<T>
     public bool HasValue { get; }
 
     public static Optional<T> Of(T? value) => new(value, true);
+
     public static Optional<T> None => new(default, false);
 
     public static implicit operator Optional<T>(T? value) => Of(value);

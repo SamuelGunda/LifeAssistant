@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using FluentValidation;
 using LifeAssistant.Application.Common.Exceptions;
 using LifeAssistant.Application.Common.Interfaces;
@@ -5,7 +6,6 @@ using LifeAssistant.Application.Common.Models;
 using LifeAssistant.Application.Models.Dtos;
 using LifeAssistant.Domain.Models.Enums;
 using MediatR;
-using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
 
 namespace LifeAssistant.Application.Features.ToDos;
@@ -24,39 +24,40 @@ public sealed class UpdateTodoValidator : AbstractValidator<UpdateTodoCommand>
 {
     public UpdateTodoValidator()
     {
-        RuleFor(x => x.Title)
-            .NotEmpty().When(x => x.Title is not null)
-            .MaximumLength(50);
-        RuleFor(x => x.Description.Value)
-            .MaximumLength(1000)
-            .When(x => x.Description.HasValue);
-        RuleFor(x => x.Notes.Value)
-            .MaximumLength(1000)
-            .When(x => x.Notes.HasValue);
-        RuleFor(x => x.Priority)
-            .IsInEnum()
-            .When(x => x.Priority is not null);
-        RuleFor(x => x.Status)
-            .IsInEnum()
-            .When(x => x.Status is not null);
+        RuleFor(x => x.Title).NotEmpty().When(x => x.Title is not null).MaximumLength(50);
+        RuleFor(x => x.Description.Value).MaximumLength(1000).When(x => x.Description.HasValue);
+        RuleFor(x => x.Notes.Value).MaximumLength(1000).When(x => x.Notes.HasValue);
+        RuleFor(x => x.Priority).IsInEnum().When(x => x.Priority is not null);
+        RuleFor(x => x.Status).IsInEnum().When(x => x.Status is not null);
     }
 }
 
-public sealed class UpdateTodoHandler(IAppDbContext db) : IRequestHandler<UpdateTodoCommand, TodoDto>
+public sealed class UpdateTodoHandler(IAppDbContext db)
+    : IRequestHandler<UpdateTodoCommand, TodoDto>
 {
-    public async Task<TodoDto> Handle(UpdateTodoCommand request, CancellationToken cancellationToken)
+    public async Task<TodoDto> Handle(
+        UpdateTodoCommand request,
+        CancellationToken cancellationToken
+    )
     {
-        var todo = await db.Todos
-            .Include(t => t.Tags)
-            .FirstOrDefaultAsync(t => t.Id == request.Id, cancellationToken)
-                ?? throw new NotFoundException($"Todo with ID {request.Id} not found.");
+        var todo =
+            await db
+                .Todos.Include(t => t.Tags)
+                .FirstOrDefaultAsync(t => t.Id == request.Id, cancellationToken)
+            ?? throw new NotFoundException($"Todo with ID {request.Id} not found.");
 
-        if (request.Title is not null) todo.Title = request.Title;
-        if (request.Description.HasValue) todo.Description = request.Description.Value;
-        if (request.Notes.HasValue) todo.Notes = request.Notes.Value;
-        if (request.DueDate.HasValue) todo.DueDate = request.DueDate.Value;
-        if (request.Priority is not null) todo.Priority = request.Priority.Value;
-        if (request.Status is not null) todo.Status = request.Status.Value;
+        if (request.Title is not null)
+            todo.Title = request.Title;
+        if (request.Description.HasValue)
+            todo.Description = request.Description.Value;
+        if (request.Notes.HasValue)
+            todo.Notes = request.Notes.Value;
+        if (request.DueDate.HasValue)
+            todo.DueDate = request.DueDate.Value;
+        if (request.Priority is not null)
+            todo.Priority = request.Priority.Value;
+        if (request.Status is not null)
+            todo.Status = request.Status.Value;
 
         todo.UpdatedAt = DateTimeOffset.UtcNow;
 

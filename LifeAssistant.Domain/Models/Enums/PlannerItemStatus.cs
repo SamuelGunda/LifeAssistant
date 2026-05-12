@@ -9,5 +9,5 @@ public enum PlannerItemStatus
     InProgress,
     Done,
     Snoozed,
-    WaitingFor
+    WaitingFor,
 }
